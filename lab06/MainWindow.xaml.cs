@@ -17,7 +17,6 @@ namespace lab06
             listar_clientes();
         }
 
-        // Remove placeholder text when user focuses on TextBox
         private void RemovePlaceholderText(object sender, RoutedEventArgs e)
         {
             TextBox textBox = sender as TextBox;
@@ -31,7 +30,6 @@ namespace lab06
             }
         }
 
-        // Add placeholder text when user leaves TextBox empty
         private void AddPlaceholderText(object sender, RoutedEventArgs e)
         {
             TextBox textBox = sender as TextBox;
@@ -77,7 +75,6 @@ namespace lab06
             }
         }
 
-        // Database connection method
         public SqlConnection conectar()
         {
             try
@@ -94,7 +91,6 @@ namespace lab06
             }
         }
 
-        // Listar clientes que tengan activo = 1
         public void listar_clientes()
         {
             try
@@ -114,6 +110,11 @@ namespace lab06
                     cliente.NombreContacto = reader["NombreContacto"].ToString();
                     cliente.CargoContacto = reader["CargoContacto"].ToString();
                     cliente.Direccion = reader["Direccion"].ToString();
+                    cliente.Ciudad = reader["Ciudad"].ToString();
+                    cliente.Region = reader["Region"].ToString();
+                    cliente.Pais = reader["Pais"].ToString();
+                    cliente.Telefono = reader["Telefono"].ToString();
+                    cliente.Fax = reader["Fax"].ToString();
                     listaClientes.Add(cliente);
                 }
 
@@ -126,7 +127,6 @@ namespace lab06
             }
         }
 
-        // Insertar cliente y recargar la tabla
         private void insertar_clientes()
         {
             try
@@ -136,39 +136,38 @@ namespace lab06
                 command.CommandType = CommandType.StoredProcedure;
 
                 SqlParameter sqlParameter1 = new SqlParameter("@idCliente", SqlDbType.VarChar);
-                sqlParameter1.Value = txtId.Text;
+                sqlParameter1.Value = string.IsNullOrWhiteSpace(txtId.Text) || txtId.Text == "ID" ? (object)DBNull.Value : txtId.Text;
 
                 SqlParameter sqlParameter2 = new SqlParameter("@NombreCompañia", SqlDbType.VarChar);
-                sqlParameter2.Value = txtNombreCompañia.Text;
+                sqlParameter2.Value = string.IsNullOrWhiteSpace(txtNombreCompañia.Text) || txtNombreCompañia.Text == "Compañía" ? (object)DBNull.Value : txtNombreCompañia.Text;
 
                 SqlParameter sqlParameter3 = new SqlParameter("@NombreContacto", SqlDbType.VarChar);
-                sqlParameter3.Value = txtNombreContacto.Text;
+                sqlParameter3.Value = string.IsNullOrWhiteSpace(txtNombreContacto.Text) || txtNombreContacto.Text == "Nombre" ? (object)DBNull.Value : txtNombreContacto.Text;
 
                 SqlParameter sqlParameter4 = new SqlParameter("@CargoContacto", SqlDbType.VarChar);
-                sqlParameter4.Value = txtCargoContacto.Text;
+                sqlParameter4.Value = string.IsNullOrWhiteSpace(txtCargoContacto.Text) || txtCargoContacto.Text == "Cargo" ? (object)DBNull.Value : txtCargoContacto.Text;
 
                 SqlParameter sqlParameter5 = new SqlParameter("@Direccion", SqlDbType.VarChar);
-                sqlParameter5.Value = txtDireccion.Text;
+                sqlParameter5.Value = string.IsNullOrWhiteSpace(txtDireccion.Text) || txtDireccion.Text == "Dirección" ? (object)DBNull.Value : txtDireccion.Text;
 
                 SqlParameter sqlParameter6 = new SqlParameter("@Ciudad", SqlDbType.VarChar);
-                sqlParameter6.Value = txtCiudad.Text;
+                sqlParameter6.Value = string.IsNullOrWhiteSpace(txtCiudad.Text) || txtCiudad.Text == "Ciudad" ? (object)DBNull.Value : txtCiudad.Text;
 
                 SqlParameter sqlParameter7 = new SqlParameter("@Region", SqlDbType.VarChar);
-                sqlParameter7.Value = txtRegion.Text;
+                sqlParameter7.Value = string.IsNullOrWhiteSpace(txtRegion.Text) || txtRegion.Text == "Región" ? (object)DBNull.Value : txtRegion.Text;
 
                 SqlParameter sqlParameter8 = new SqlParameter("@CodPostal", SqlDbType.VarChar);
-                sqlParameter8.Value = txtCodPostal.Text;
+                sqlParameter8.Value = string.IsNullOrWhiteSpace(txtCodPostal.Text) || txtCodPostal.Text == "Código Postal" ? (object)DBNull.Value : txtCodPostal.Text;
 
                 SqlParameter sqlParameter9 = new SqlParameter("@Pais", SqlDbType.VarChar);
-                sqlParameter9.Value = txtPais.Text;
+                sqlParameter9.Value = string.IsNullOrWhiteSpace(txtPais.Text) || txtPais.Text == "País" ? (object)DBNull.Value : txtPais.Text;
 
                 SqlParameter sqlParameter10 = new SqlParameter("@Telefono", SqlDbType.VarChar);
-                sqlParameter10.Value = txtTelefono.Text;
+                sqlParameter10.Value = string.IsNullOrWhiteSpace(txtTelefono.Text) || txtTelefono.Text == "Teléfono" ? (object)DBNull.Value : txtTelefono.Text;
 
                 SqlParameter sqlParameter11 = new SqlParameter("@Fax", SqlDbType.VarChar);
-                sqlParameter11.Value = txtFax.Text;
+                sqlParameter11.Value = string.IsNullOrWhiteSpace(txtFax.Text) || txtFax.Text == "Fax" ? (object)DBNull.Value : txtFax.Text;
 
-                // Agregar los parámetros al comando
                 command.Parameters.Add(sqlParameter1);
                 command.Parameters.Add(sqlParameter2);
                 command.Parameters.Add(sqlParameter3);
@@ -184,7 +183,6 @@ namespace lab06
                 command.ExecuteNonQuery();
                 conexion.Close();
 
-                // Recargar la lista de clientes después de la inserción
                 listar_clientes();
 
                 MessageBox.Show("Cliente insertado correctamente.");
@@ -196,7 +194,7 @@ namespace lab06
         }
 
 
-        // Editar cliente
+
         private void editar_cliente()
         {
             try
@@ -206,39 +204,38 @@ namespace lab06
                 command.CommandType = CommandType.StoredProcedure;
 
                 SqlParameter sqlParameter1 = new SqlParameter("@idCliente", SqlDbType.VarChar);
-                sqlParameter1.Value = txtId.Text;
+                sqlParameter1.Value = string.IsNullOrWhiteSpace(txtId.Text) || txtId.Text == "ID" ? (object)DBNull.Value : txtId.Text;
 
                 SqlParameter sqlParameter2 = new SqlParameter("@NombreCompañia", SqlDbType.VarChar);
-                sqlParameter2.Value = txtNombreCompañia.Text;
+                sqlParameter2.Value = string.IsNullOrWhiteSpace(txtNombreCompañia.Text) || txtNombreCompañia.Text == "Compañía" ? (object)DBNull.Value : txtNombreCompañia.Text;
 
                 SqlParameter sqlParameter3 = new SqlParameter("@NombreContacto", SqlDbType.VarChar);
-                sqlParameter3.Value = txtNombreContacto.Text;
+                sqlParameter3.Value = string.IsNullOrWhiteSpace(txtNombreContacto.Text) || txtNombreContacto.Text == "Nombre" ? (object)DBNull.Value : txtNombreContacto.Text;
 
                 SqlParameter sqlParameter4 = new SqlParameter("@CargoContacto", SqlDbType.VarChar);
-                sqlParameter4.Value = txtCargoContacto.Text;
+                sqlParameter4.Value = string.IsNullOrWhiteSpace(txtCargoContacto.Text) || txtCargoContacto.Text == "Cargo" ? (object)DBNull.Value : txtCargoContacto.Text;
 
                 SqlParameter sqlParameter5 = new SqlParameter("@Direccion", SqlDbType.VarChar);
-                sqlParameter5.Value = txtDireccion.Text;
+                sqlParameter5.Value = string.IsNullOrWhiteSpace(txtDireccion.Text) || txtDireccion.Text == "Dirección" ? (object)DBNull.Value : txtDireccion.Text;
 
                 SqlParameter sqlParameter6 = new SqlParameter("@Ciudad", SqlDbType.VarChar);
-                sqlParameter6.Value = txtCiudad.Text;
+                sqlParameter6.Value = string.IsNullOrWhiteSpace(txtCiudad.Text) || txtCiudad.Text == "Ciudad" ? (object)DBNull.Value : txtCiudad.Text;
 
                 SqlParameter sqlParameter7 = new SqlParameter("@Region", SqlDbType.VarChar);
-                sqlParameter7.Value = txtRegion.Text;
+                sqlParameter7.Value = string.IsNullOrWhiteSpace(txtRegion.Text) || txtRegion.Text == "Región" ? (object)DBNull.Value : txtRegion.Text;
 
                 SqlParameter sqlParameter8 = new SqlParameter("@CodPostal", SqlDbType.VarChar);
-                sqlParameter8.Value = txtCodPostal.Text;
+                sqlParameter8.Value = string.IsNullOrWhiteSpace(txtCodPostal.Text) || txtCodPostal.Text == "Código Postal" ? (object)DBNull.Value : txtCodPostal.Text;
 
                 SqlParameter sqlParameter9 = new SqlParameter("@Pais", SqlDbType.VarChar);
-                sqlParameter9.Value = txtPais.Text;
+                sqlParameter9.Value = string.IsNullOrWhiteSpace(txtPais.Text) || txtPais.Text == "País" ? (object)DBNull.Value : txtPais.Text;
 
                 SqlParameter sqlParameter10 = new SqlParameter("@Telefono", SqlDbType.VarChar);
-                sqlParameter10.Value = txtTelefono.Text;
+                sqlParameter10.Value = string.IsNullOrWhiteSpace(txtTelefono.Text) || txtTelefono.Text == "Teléfono" ? (object)DBNull.Value : txtTelefono.Text;
 
                 SqlParameter sqlParameter11 = new SqlParameter("@Fax", SqlDbType.VarChar);
-                sqlParameter11.Value = txtFax.Text;
+                sqlParameter11.Value = string.IsNullOrWhiteSpace(txtFax.Text) || txtFax.Text == "Fax" ? (object)DBNull.Value : txtFax.Text;
 
-                // Agregar los parámetros al comando
                 command.Parameters.Add(sqlParameter1);
                 command.Parameters.Add(sqlParameter2);
                 command.Parameters.Add(sqlParameter3);
@@ -254,10 +251,9 @@ namespace lab06
                 command.ExecuteNonQuery();
                 conexion.Close();
 
-                // Recargar la lista de clientes después de la edición
                 listar_clientes();
 
-                MessageBox.Show("Cliente editado correctamente.");
+                MessageBox.Show("Cliente actualizado correctamente.");
             }
             catch (Exception ex)
             {
@@ -274,12 +270,12 @@ namespace lab06
                 SqlCommand command = new SqlCommand("sp_EliminarCliente", conexion);
                 command.CommandType = System.Data.CommandType.StoredProcedure;
 
-                command.Parameters.AddWithValue("@idCliente", txtId.Text);  // Se debe pasar el ID del cliente para eliminarlo lógicamente
+                command.Parameters.AddWithValue("@idCliente", txtId.Text);  
                 command.ExecuteNonQuery();
                 conexion.Close();
 
-                MessageBox.Show("Cliente eliminado correctamente.");
-                listar_clientes();  // Recargar la tabla después de eliminar
+                MessageBox.Show("Cliente eliminado.");
+                listar_clientes();  
             }
             catch (Exception ex)
             {
@@ -292,25 +288,44 @@ namespace lab06
 
             try
             {
-                txtCargoContacto.Text = string.Empty;
+                txtId.Text = "ID";
+                txtNombreCompañia.Text = "Compañía";
+                txtNombreContacto.Text = "Nombre";
+                txtCargoContacto.Text = "Cargo";
+                txtDireccion.Text = "Dirección";
+                txtCiudad.Text = "Ciudad";
+                txtRegion.Text = "Región";
+                txtCodPostal.Text = "Código Postal";
+                txtPais.Text = "País";
+                txtTelefono.Text = "Teléfono";
+                txtFax.Text = "Fax";
+
+                txtId.Foreground = new SolidColorBrush(Colors.Gray);
+                txtNombreCompañia.Foreground = new SolidColorBrush(Colors.Gray);
+                txtNombreContacto.Foreground = new SolidColorBrush(Colors.Gray);
+                txtCargoContacto.Foreground = new SolidColorBrush(Colors.Gray);
+                txtDireccion.Foreground = new SolidColorBrush(Colors.Gray);
+                txtCiudad.Foreground = new SolidColorBrush(Colors.Gray);
+                txtRegion.Foreground = new SolidColorBrush(Colors.Gray);
+                txtCodPostal.Foreground = new SolidColorBrush(Colors.Gray);
+                txtPais.Foreground = new SolidColorBrush(Colors.Gray);
+                txtTelefono.Foreground = new SolidColorBrush(Colors.Gray);
+                txtFax.Foreground = new SolidColorBrush(Colors.Gray);
             }
             catch { }
 
         }
 
-        // Evento del botón insertar
         private void Click_Insertar(object sender, RoutedEventArgs e)
         {
             insertar_clientes();
         }
 
-        // Evento del botón editar
         private void Click_Editar(object sender, RoutedEventArgs e)
         {
             editar_cliente();
         }
 
-        // Evento del botón eliminar
         private void Click_Eliminar(object sender, RoutedEventArgs e)
         {
             eliminar_cliente();
@@ -318,7 +333,7 @@ namespace lab06
 
         private void Click_Cancelar(object sender, RoutedEventArgs e)
         {
-
+            limpiar_form();
         }
     }
 }
